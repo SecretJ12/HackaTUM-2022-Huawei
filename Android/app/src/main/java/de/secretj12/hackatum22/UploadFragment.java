@@ -7,11 +7,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import de.secretj12.hackatum22.databinding.FragmentFirstBinding;
 
-public class FirstFragment extends Fragment {
+public class UploadFragment extends Fragment {
 
     private FragmentFirstBinding binding;
 
