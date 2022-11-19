@@ -1,12 +1,14 @@
 package de.secretj12.hackatum22;
 
+import static android.content.ContentValues.TAG;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -16,11 +18,13 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -67,13 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         //load/initialize the osmdroid configuration, this can be done
         Context ctx = getApplicationContext();
@@ -98,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         GeoPoint startPoint = new GeoPoint(48.2637, 11.6684);
         mapController.setCenter(startPoint);
 
-        this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getApplicationContext()),map);
+        this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getApplicationContext()), map);
         this.mLocationOverlay.enableMyLocation();
         map.getOverlays().add(this.mLocationOverlay);
 
@@ -130,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemLongPress(final int index, final OverlayItem item) {
                         Intent intent = new Intent(MainActivity.this, CameraActivity.class);
                         startActivity(intent);
+                        updateProgressBar();
                         return false;
                     }
                 }, context);
@@ -137,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
         map.getOverlays().add(mOverlay);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         //this will refresh the osmdroid configuration on resuming.
         //if you make changes to the configuration, use
@@ -169,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
     }
 
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         //this will refresh the osmdroid configuration on resuming.
         //if you make changes to the configuration, use
@@ -191,4 +190,37 @@ public class MainActivity extends AppCompatActivity {
                     // decision.
                 }
             });
+
+    public void setGps(View view) {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+//            updateProgressBar();
+
+            requestPermissionLauncher.launch(
+                    Manifest.permission.ACCESS_FINE_LOCATION
+
+            );
+        }
+        Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        map.getController().setCenter(new GeoPoint(locationGPS.getLatitude(), locationGPS.getLongitude()));
+    }
+
+    public void updateProgressBar(){
+        ProgressBar progressBar =  findViewById(R.id.progressBar);
+        int progress = progressBar.getProgress();
+        if(progress==100){
+            progressBar.setProgress(10);
+        }else{
+            progressBar.setProgress(progress+10);
+        }
+
+    }
+
 }
