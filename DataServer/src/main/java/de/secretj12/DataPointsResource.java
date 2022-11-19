@@ -15,7 +15,7 @@ import java.util.List;
 public class DataPointsResource {
 
     @Inject
-    private Points points;
+    Points points;
 
     @GET
     @Path("/between")
