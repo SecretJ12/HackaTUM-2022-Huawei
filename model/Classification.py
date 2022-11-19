@@ -9,12 +9,21 @@ import numpy as np
 
 from keras.models import load_model
 
-model = load_model('model_saved.h5')
+import sys
 
-image = load_img('/home/oliver/coding/py/HackaTUM_Data/dataset/hackatum_dataset/val/primary/142360954539412.jpg', target_size=(224, 224))
-img = np.array(image)
-img = img / 255.0
-img = img.reshape(1,224,224,3)
-label = model.predict(img)
-print("Predicted Class (0 - footway , 1- primary): ", label[0][0])
+def main(argv):
+    path_to_image = argv[0]
 
+    model = load_model('model_saved.h5')
+
+    image = load_img(path_to_image, target_size=(224, 224))
+    img = np.array(image)
+    img = img / 255.0
+    img = img.reshape(1,224,224,3)
+    label = model.predict(img)
+    print(label[0][0])
+
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
