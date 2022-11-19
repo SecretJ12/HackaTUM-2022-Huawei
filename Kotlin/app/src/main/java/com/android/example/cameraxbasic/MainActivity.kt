@@ -51,9 +51,10 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         // Before setting full screen flags, we must wait a bit to let UI settle; otherwise, we may
         // be trying to set app to immersive mode before it's ready and the flags do not stick
-        activityMainBinding.fragmentContainer.postDelayed({
-            hideSystemUI()
-        }, IMMERSIVE_FLAG_TIMEOUT)
+//        activityMainBinding.fragmentContainer.postDelayed({
+//            hideSystemUI()
+//        }, IMMERSIVE_FLAG_TIMEOUT)
+//        activityMainBinding
     }
 
     /** When key down event is triggered, relay it via local broadcast so fragments can handle it */
