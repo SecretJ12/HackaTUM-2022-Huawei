@@ -1,5 +1,28 @@
 package de.secretj12.hackatum22;
 
+import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
@@ -15,19 +38,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.common.util.concurrent.ListenableFuture;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -53,9 +66,9 @@ public class CameraActivity extends AppCompatActivity {
         mPreviewView = findViewById(R.id.previewView);
         captureImage = findViewById(R.id.captureImg);
 
-        if(allPermissionsGranted()){
+        if (allPermissionsGranted()) {
             startCamera(); //start camera if permission has been granted by user
-        } else{
+        } else {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
     }
@@ -109,15 +122,15 @@ public class CameraActivity extends AppCompatActivity {
 
         preview.setSurfaceProvider(mPreviewView.createSurfaceProvider());
 
-        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, preview, imageAnalysis, imageCapture);
+        Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview, imageAnalysis, imageCapture);
 
         captureImage.setOnClickListener(v -> {
 
             SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
-            File file = new File(getBatchDirectoryName(), mDateFormat.format(new Date())+ ".jpg");
+            File file = new File(getBatchDirectoryName(), mDateFormat.format(new Date()) + ".jpg");
 
             ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(file).build();
-            imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback () {
+            imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback() {
                 @Override
                 public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -128,6 +141,7 @@ public class CameraActivity extends AppCompatActivity {
                         }
                     });
                 }
+
                 @Override
                 public void onError(@NonNull ImageCaptureException error) {
                     error.printStackTrace();
@@ -139,7 +153,8 @@ public class CameraActivity extends AppCompatActivity {
     public String getBatchDirectoryName() {
 
         String app_folder_path = "";
-        app_folder_path =  getFilesDir().getPath() + "/images";        File dir = new File(app_folder_path);
+        app_folder_path = getFilesDir().getPath() + "/images";
+        File dir = new File(app_folder_path);
         System.out.println("Exists: " + dir.exists());
         System.out.println("Created: " + dir.mkdirs());
         if (!dir.exists() && !dir.mkdirs()) {
@@ -149,10 +164,10 @@ public class CameraActivity extends AppCompatActivity {
         return app_folder_path;
     }
 
-    private boolean allPermissionsGranted(){
+    private boolean allPermissionsGranted() {
 
-        for(String permission : REQUIRED_PERMISSIONS){
-            if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
         }
@@ -218,5 +233,6 @@ public class CameraActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }
+
 
 }
