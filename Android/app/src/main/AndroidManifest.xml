@@ -34,7 +34,8 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".CameraActivity" />
+        <activity android:name=".CameraActivity"
+            android:screenOrientation = "portrait"/>
     </application>
 
 </manifest>

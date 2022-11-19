@@ -130,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemLongPress(final int index, final OverlayItem item) {
                         Intent intent = new Intent(MainActivity.this, CameraActivity.class);
                         startActivity(intent);
-                        finish();
                         return false;
                     }
                 }, context);
