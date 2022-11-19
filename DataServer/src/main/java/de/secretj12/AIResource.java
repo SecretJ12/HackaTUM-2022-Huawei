@@ -15,12 +15,14 @@ public class AIResource {
     @Path("/streetway")
     @Consumes(MediaType.APPLICATION_OCTET_STREAM)
     @Produces(MediaType.TEXT_PLAIN)
-    public String evaluatePic(@MultipartForm MultipartBody body) throws IOException {
+    public String evaluatePic(InputStream in) throws IOException {
+        System.out.println("Request");
+
         String filename = UUID.randomUUID().toString() + ".jpg";
         File f = new java.io.File("./" + filename);
         f.createNewFile();
         FileOutputStream fout = new FileOutputStream(f);
-        fout.write(body.file.readAllBytes());
+        fout.write(in.readAllBytes());
         fout.close();
 
         Runtime rt = Runtime.getRuntime();

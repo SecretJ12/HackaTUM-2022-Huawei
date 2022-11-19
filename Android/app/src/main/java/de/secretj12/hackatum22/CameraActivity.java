@@ -1,5 +1,15 @@
 package de.secretj12.hackatum22;
 
+import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
@@ -15,19 +25,20 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
-
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -122,7 +133,8 @@ public class CameraActivity extends AppCompatActivity {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(CameraActivity.this, "Image Saved successfully", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(CameraActivity.this, "Image Saved successfully", Toast.LENGTH_SHORT).show();
+                            sendFile(file);
                         }
                     });
                 }
@@ -137,12 +149,13 @@ public class CameraActivity extends AppCompatActivity {
     public String getBatchDirectoryName() {
 
         String app_folder_path = "";
-        app_folder_path = Environment.getExternalStorageDirectory().toString() + "/images";
+        app_folder_path = getFilesDir().getPath() + "/images";
         File dir = new File(app_folder_path);
+        System.out.println("Exists: " + dir.exists());
+        System.out.println("Created: " + dir.mkdirs());
         if (!dir.exists() && !dir.mkdirs()) {
 
         }
-
         return app_folder_path;
     }
 
@@ -168,4 +181,52 @@ public class CameraActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void sendFile(File f) {
+        ProgressDialog progress = new ProgressDialog(CameraActivity.this);
+        progress.setTitle("Sending");
+        progress.setMessage("Picture is being send to server...");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+        progress.show();
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://131.159.195.163:8080/AI/streetway";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("LOG_RESPONSE", response);
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("LOG_RESPONSE", error.toString());
+                finish();
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    InputStream in = new FileInputStream(f);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        return in.readAllBytes();
+                    }
+                } catch (FileNotFoundException e) {
+                } catch (IOException e) {
+                }
+                return null;
+            }
+        };
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
 }
