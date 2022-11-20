@@ -1,5 +1,7 @@
 package de.secretj12.hackatum22;
 
+import static android.content.ContentValues.TAG;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +22,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.ui.AppBarConfiguration;
+
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -116,20 +123,21 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
                         //do something
-                        return true;
-                    }
-                    @Override
-                    public boolean onItemLongPress(final int index, final OverlayItem item) {
                         Intent intent = new Intent(MainActivity.this, CameraActivity.class);
                         startActivity(intent);
                         updateProgressBar();
                         return false;
+                    }
+                    @Override
+                    public boolean onItemLongPress(final int index, final OverlayItem item) {
+                        return true;
                     }
                 }, context);
         mOverlay.setFocusItemsOnTap(true);
 
         map.getOverlays().add(mOverlay);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -208,9 +216,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateProgressBar(){
         ProgressBar progressBar =  findViewById(R.id.progressBar);
+        TextView textView =  findViewById(R.id.textView);
         int progress = progressBar.getProgress();
         if(progress==100){
             progressBar.setProgress(10);
+            int lvl = Integer.parseInt(textView.getText().toString())+1;
+            textView.setText((lvl + "").toCharArray(),0,(lvl+"").length());
         }else{
             progressBar.setProgress(progress+10);
         }
