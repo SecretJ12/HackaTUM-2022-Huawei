@@ -1,7 +1,5 @@
 package de.secretj12.hackatum22;
 
-import static android.content.ContentValues.TAG;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -9,22 +7,19 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
-import android.view.View;
-
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.ui.AppBarConfiguration;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ProgressBar;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -135,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
         map.getOverlays().add(mOverlay);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
