@@ -115,7 +115,37 @@ public class MainActivity extends AppCompatActivity {
 
         //your items
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.26250, 11.67053))); // Lat/Lon decimal degrees
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.111355593621, 11.61430161647961)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.17566584451249, 11.606248275586244)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.13569262741428, 11.63329945842623)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.1765304782419, 11.58813361092573)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.14912076050485, 11.570784175202212)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.17607553069282, 11.60678544203654)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.106241100000005, 11.5806306)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.13046701048668, 11.613351477617488)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.16163430223077, 11.622674470519335)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.172420882348, 11.608645678780396)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.11291668736461, 11.547805204701106)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.16265466072837, 11.6237920164228)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.118031503459626, 11.61900312193212)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.17604819685549, 11.60673962645799)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.12177302648248, 11.62046123985182)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.11290549141834, 11.615932367309346)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.11925483880852, 11.61818097587384)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.16881681797188, 11.616833182061308)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.104692400000005, 11.5873091)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.17208671297508, 11.603695515414293)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.11211300211448, 11.615292419261202)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.14868644684231, 11.525206316022905)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.171796512604, 11.601411486290576)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.16089514763812, 11.549527023953246)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.11835266871433, 11.618987385257748)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.16302274431093, 11.624135105357796)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.10089803370931, 11.541217267708962)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.11503273780353, 11.617648147817643)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.17299008497127, 11.613106928911195)));
+        items.add(new OverlayItem("Issue point", "Here's a problem", new GeoPoint(48.14774795111176, 11.527965543942017)));
+
 
         //the overlay
         ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
