@@ -6,16 +6,6 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:theme="@style/Theme.HackaTUM.AppBarOverlay">
-
-
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <org.osmdroid.views.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"
@@ -45,9 +35,10 @@
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:indeterminate="false"
             android:layout_gravity="bottom"
+
             android:max="100"
             android:progress="10" />
     <TextView
@@ -56,6 +47,7 @@
             android:layout_gravity="right"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/black"
+            android:textColor="@color/black"
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
             android:textSize="35dp"
